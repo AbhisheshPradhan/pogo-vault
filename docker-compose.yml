@@ -1,0 +1,63 @@
+services:
+    # 1. DATABASE SERVICE (PostgreSQL)
+    db:
+        image: postgres:16-alpine
+        restart: always
+        environment:
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: mydb
+        ports:
+            - "5432:5432"
+        volumes:
+            - postgres_data:/var/lib/postgresql/data/
+
+    # 2. BACKEND API SERVICE (Node/Express with server.ts)
+    backend:
+        build:
+            context: .
+            dockerfile: backend/Dockerfile
+        environment:
+            # IMPORTANT: Use the service name 'db' as the hostname for container-to-container communication
+            DATABASE_URL: "postgresql://user:password@db:5432/mydb?schema=public"
+            PORT: 4000
+        ports:
+            - "4000:4000" # Expose the API to your local machine
+        volumes:
+            # Live link to your local code for instant reloading
+            - ./backend:/app
+            # Map the shared folder into the container
+            - ./shared:/app/shared
+            # Prevents local node_modules from overwriting container's install
+            - /app/node_modules
+        depends_on:
+            - db # Ensures the database is started before the backend attempts to connect
+        # command: sh -c "npx prisma migrate dev --name init && npm run dev"
+        # command: sh -c "npx prisma generate && npx prisma migrate dev --name init && npm run dev"
+        command: >
+            sh -c "sleep 5 && 
+            npx prisma generate && 
+            npx prisma migrate deploy && 
+            npx prisma db seed && 
+            npm run dev"
+
+    # 3. FRONTEND SERVICE (React/Vite)
+    frontend:
+        build:
+            context: .
+            dockerfile: frontend/Dockerfile
+        ports:
+            - "3000:3000"
+        volumes:
+            - ./frontend:/app
+            - ./shared:/app/shared
+            - /app/node_modules
+        environment:
+            CHOKIDAR_USEPOLLING: "true"
+            # API URL remains localhost because the request originates from the browser on your host machine
+            VITE_API_URL: "http://localhost:4000"
+        stdin_open: true
+        tty: true
+
+volumes:
+    postgres_data:

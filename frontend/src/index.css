@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+/* ------------------------------------------------ */
+/* Global CSS File: e.g., index.css or global.css */
+/* ------------------------------------------------ */
+
+@layer base {
+  html {
+    overflow-y: scroll;
+  }
+}
+
+
+/* 1. Define the flickering animation keyframes */
+@keyframes flame-flicker-tailwind {
+    0% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        filter: blur(1px) brightness(1);
+        opacity: 1;
+    }
+    25% {
+        transform: translate(-1px, -2px) rotate(-1deg) scale(1.02);
+        filter: blur(1.5px) brightness(1.2);
+        opacity: 0.95;
+    }
+    50% {
+        transform: translate(1px, 0) rotate(1deg) scale(1);
+        filter: blur(1px) brightness(1);
+        opacity: 1;
+    }
+    75% {
+        transform: translate(0, -1px) rotate(0deg) scale(0.98);
+        filter: blur(2px) brightness(1.1);
+        opacity: 0.9;
+    }
+    100% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        filter: blur(1px) brightness(1);
+        opacity: 1;
+    }
+}
+
+/* 2. Define a utility class that uses the animation */
+.animate-flame {
+    /* Apply the animation: 0.2s duration, steps easing for sharp movement, infinite */
+    animation: flame-flicker-tailwind 2s steps(4) infinite;
+}
+
+.shiny-mask {
+    mask-image: url('./assets/shiny.svg');
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    
+    -webkit-mask-image: url('./assets/shiny.svg');
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+}
+
+@keyframes shimmer-flicker {
+    0%, 100% {
+        /* Default state: slightly brighter, normal contrast */
+        filter: brightness(1.1) contrast(1);
+    }
+    50% {
+        /* Mid-point: brief, subtle flash of light */
+        filter: brightness(1.3) contrast(1.1);
+    }
+    75% {
+        /* Subtle darkening */
+        filter: brightness(0.9) contrast(1);
+    }
+}
+
+/* Define a utility class to apply the animation */
+.subtle-sparkle-filter {
+    animation: shimmer-flicker 2s ease-in-out infinite; /* 2s duration, repeats infinitely */
+}

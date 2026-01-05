@@ -1,0 +1,71 @@
+[
+    {
+        "id": "camqvpyp78ef1hnso0pg0v2f",
+        "name": "Shiny Living Dex",
+        "slug": "shiny-living-dex",
+        "description": "Complete collection of all shiny Pokémon",
+        "type": "LIVING_DEX",
+        "isActive": true,
+        "order": 1,
+        "filters": [
+            {
+                "field": "isShiny",
+                "operator": "equals",
+                "value": true
+            }
+        ]
+    },
+    {
+        "id": "o3lw4vpch5dv39odsdxi7uds",
+        "name": "Kanto Pokédex",
+        "slug": "kanto-pokedex",
+        "description": "Original 151 Pokémon from Generation 1",
+        "type": "REGIONAL_POKEDEX",
+        "isActive": true,
+        "order": 2,
+        "filters": [
+            {
+                "field": "gen",
+                "operator": "equals",
+                "value": 1
+            },
+            {
+                "field": "region",
+                "operator": "equals",
+                "value": "kanto"
+            }
+        ]
+    },
+    {
+        "id": "t84p5b15k5c1g2dgdkukw3hj",
+        "name": "Shadow Collection",
+        "slug": "shadow-collection",
+        "description": "All shadow Pokémon variants",
+        "type": "SPECIAL_COLLECTION",
+        "isActive": true,
+        "order": 3,
+        "filters": [
+            {
+                "field": "isShadow",
+                "operator": "equals",
+                "value": true
+            }
+        ]
+    },
+    {
+        "id": "r4psma638y8jpcpnyr228qyf",
+        "name": "Mega Evolution Dex",
+        "slug": "mega-evolution-dex",
+        "description": "Pokémon with Mega Evolutions",
+        "type": "CUSTOM",
+        "isActive": false,
+        "order": 4,
+        "filters": [
+            {
+                "field": "isMega",
+                "operator": "equals",
+                "value": true
+            }
+        ]
+    }
+]

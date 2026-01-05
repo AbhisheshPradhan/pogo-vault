@@ -1,0 +1,23 @@
+{
+	"name": "pogo-vault",
+	"version": "1.0.0",
+	"description": "Root package for a React/Node/Prisma application.",
+	"private": true,
+	"scripts": {
+		"start": "npm run start --workspace=backend",
+		"dev": "npm-run-all --parallel dev:*",
+		"dev:backend": "npm run dev --workspace=backend",
+		"dev:frontend": "npm run dev --workspace=frontend",
+		"install:all": "npm install --workspaces",
+		"build:backend": "npm run build --workspace=backend",
+		"build:frontend": "npm run build --workspace=frontend",
+		"build:all": "npm run build:backend && npm run build:frontend"
+	},
+	"workspaces": [
+		"frontend",
+		"backend"
+	],
+	"dependencies": {
+		"npm-run-all": "^4.1.5"
+	}
+}

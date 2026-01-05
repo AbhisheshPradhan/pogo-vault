@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"target": "ES2023",
+		"strict": true,
+		"baseUrl": ".",
+		"paths": {
+			"@shared/*": [
+				"./shared/*", // This works in Docker (/app/shared)
+				"../shared/*" // This works in your local IDE (../shared)
+			]
+		},
+		"rootDirs": ["src", "./shared", "../shared"],
+		"outDir": "./dist",
+		"esModuleInterop": true
+	},
+	"include": ["src/**/*", "./shared/**/*", "../shared/**/*"]
+}

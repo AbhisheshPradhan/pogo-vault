@@ -1,0 +1,130 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Pokemon {
+  id                   String  @id @unique
+  speciesId            String
+  nid                  String
+  name                 String
+  speciesName          String
+  formName             String?
+  dexNum               Int
+  formId               String?
+  region               String
+  gen                  Int
+  type1                String
+  type2                String?
+  color                String
+  isDefault            Boolean
+  isForm               Boolean
+  isLegendary          Boolean
+  isMythical           Boolean
+  isUltraBeast         Boolean
+  ultraBeastCode       String?
+  isSpecialAbilityForm Boolean
+  isCosmeticForm       Boolean
+  isFemaleForm         Boolean
+  hasGenderDifferences Boolean
+  isBattleOnlyForm     Boolean
+  isSwitchableForm     Boolean
+  isFusion             Boolean
+  fusedWith            String?
+  isMega               Boolean
+  isPrimal             Boolean
+  isGmax               Boolean
+  isRegional           Boolean
+  eventExclusive       Boolean
+  debutIn              String
+  shinyReleased        Boolean
+  shadowReleased       Boolean
+  baseSpecies          String?
+  evolvesFrom          Json? // e.g. { pokemon: "pikachu", item: "thunderstone", type: "useitem" }
+  isShiny              Boolean
+  isShadow             Boolean
+  availableInPogo      Boolean
+
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  // userCatchStates User_Catch_States[]
+  userCatchStates UserCatchState[]
+
+  @@index([dexNum])
+}
+
+model Collection {
+  id          String  @id @default(cuid(2))
+  name        String  @unique
+  /// @readonly
+  /// slug is auto-generated from name during creation/update and cannot be changed.
+  slug        String  @unique
+  description String
+  type        String
+  isActive    Boolean @default(true)
+
+  /// Order determines the display order of collections. Lower numbers appear first.
+  /// Only editable using DnD interface in the admin panel.
+  order Int
+
+  /// JSON array of filters defining which Pokémon are included in this collection.
+  /// Example: [{ "field": "type1", "operator": "equals", "value": "Fire" }]
+  /// We parse this value to Prisma queries in the application layer.
+  filters Json @default("[]")
+
+  /// @readonly
+  /// Total count of Pokémon matching the `filters` JSON.
+  /// This is a denormalized field calculated in the application layer 
+  /// during creation or when filters are updated.
+  pokemonCount Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // progresses Collection_Progress[] // one to many relationship. Enforcing data integrity.
+  collectionProgresses CollectionProgress[]
+
+  @@index([slug]) // Index for fast lookups by slug
+}
+
+model User {
+  id                   String               @id @unique
+  username             String
+  collectionProgresses CollectionProgress[]
+  userCatchStates      UserCatchState[]
+}
+
+model UserCatchState {
+  id        String  @id @default(cuid(2))
+  userId    String
+  pokemonId String
+  isCaught  Boolean
+
+  pokemon Pokemon @relation(fields: [pokemonId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@unique([userId, pokemonId])
+}
+
+model CollectionProgress {
+  id           String @id @default(cuid(2))
+  collectionId String
+  userId       String
+  caughtCount  Int
+  totalCount   Int
+
+  collection Collection @relation(fields: [collectionId], references: [id])
+  user       User       @relation(fields: [userId], references: [id])
+
+  @@unique([collectionId, userId])
+}
