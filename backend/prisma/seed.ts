@@ -15,7 +15,6 @@ async function seedPokemon(pokemonList: PokemonModel[]) {
 	console.log(`\n🌱 Starting upsert for ${pokemonList.length} Pokémon...`);
 
 	const upsertPromises = pokemonList.map((data: PokemonModel) => {
-		// Use upsert on a unique field (assuming 'id' is a unique identifier/primary key)
 		return prisma.pokemon.upsert({
 			where: { id: data.id },
 			update: { ...data },
@@ -31,29 +30,6 @@ async function seedPokemon(pokemonList: PokemonModel[]) {
 	);
 	return results.length;
 }
-
-// async function seedCollections(collectionList: CollectionModel[]) {
-// 	console.log(
-// 		`\n📚 Starting upsert for ${collectionList.length} Collections...`
-// 	);
-
-// 	const upsertPromises = collectionList.map((data: CollectionModel) => {
-// 		// ASSUMPTION: 'id' is the unique identifier for your Collection table
-// 		return prisma.collection.upsert({
-// 			where: { id: data.id },
-// 			update: { ...data },
-// 			create: {
-// 				...data,
-// 			},
-// 		});
-// 	});
-
-// 	const results = await Promise.all(upsertPromises);
-// 	console.log(
-// 		`✅ Collection Seeding successful! Total Collections upserted: ${results.length}`
-// 	);
-// 	return results.length;
-// }
 
 function mapFrontendFiltersToPrisma(filters: any[]): Prisma.PokemonWhereInput {
 	const prismaWhere: any = {};

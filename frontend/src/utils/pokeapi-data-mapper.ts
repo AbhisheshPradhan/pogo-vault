@@ -17,49 +17,47 @@ function createSimplifiedEntry(
     const isDefaultValue = isShiny || isShadow ? false : data.isDefault;
 
     return {
+        availableInPogo: isavailableInPogo || false,
+        baseSpecies: data.baseSpecies || null,
+        color: data.color || '',
+        debutIn: data.debutIn || '',
+        dexNum: data.dexNum || 0,
+        evolvesFrom: data.evolvesFrom || null,
+        eventExclusive:
+            (data.eventOnlyIn && data.eventOnlyIn.length > 0) || false,
+        formId: data.formId || null,
+        formName: formNameEng || '',
+        fusedWith: data.fusedWith || null,
+        gen: data.gen || 0,
+        hasGenderDifferences: data.hasGenderDifferences || false,
         id: generateNewId(data.id, isShiny, isShadow),
-        speciesId: data.id,
-        nid: data.nid,
-        // Flattened names
-        name: nameEng,
-        speciesName: speciesNameEng,
-        formName: formNameEng,
-        // Direct copies of top-level properties
-        dexNum: data.dexNum,
-        formId: data.formId,
-        region: data.region,
-        gen: data.gen,
-        type1: data.type1,
-        type2: data.type2,
-        color: data.color,
-        isDefault: isDefaultValue, // non-shiny & non-shadow = base form
-        isForm: data.isForm,
-        isLegendary: data.isLegendary,
-        isMythical: data.isMythical,
-        isUltraBeast: data.isUltraBeast,
-        ultraBeastCode: data.ultraBeastCode,
-        isSpecialAbilityForm: data.isSpecialAbilityForm,
-        isCosmeticForm: data.isCosmeticForm,
-        isFemaleForm: data.isFemaleForm,
-        hasGenderDifferences: data.hasGenderDifferences,
-        isBattleOnlyForm: data.isBattleOnlyForm,
-        isSwitchableForm: data.isSwitchableForm,
-        isFusion: data.isFusion,
-        fusedWith: data.fusedWith,
-        isMega: data.isMega,
-        isPrimal: data.isPrimal,
-        isGmax: data.isGmax,
-        isRegional: data.isRegional,
-        eventExclusive: data.eventOnlyIn && data.eventOnlyIn.length > 0,
-        debutIn: data.debutIn,
-        shinyReleased: data.shinyReleased,
-        shadowReleased: isShadowReleased(data.dexNum),
-        baseSpecies: data.baseSpecies,
-        evolvesFrom: data.evolvesFrom,
-        // New flags
-        isShiny: isShiny,
-        isShadow: isShadow, // New property
-        availableInPogo: isavailableInPogo,
+        isBattleOnlyForm: data.isBattleOnlyForm || false,
+        isCosmeticForm: data.isCosmeticForm || false,
+        isDefault: isDefaultValue || false,
+        isFemaleForm: data.isFemaleForm || false,
+        isForm: data.isForm || false,
+        isFusion: data.isFusion || false,
+        isGmax: data.isGmax || false,
+        isLegendary: data.isLegendary || false,
+        isMega: data.isMega || false,
+        isMythical: data.isMythical || false,
+        isPrimal: data.isPrimal || false,
+        isRegional: data.isRegional || false,
+        isShadow: isShadow || false,
+        isSpecialAbilityForm: data.isSpecialAbilityForm || false,
+        isSwitchableForm: data.isSwitchableForm || false,
+        isUltraBeast: data.isUltraBeast || false,
+        isShiny: isShiny || false,
+        name: nameEng || '',
+        nid: data.nid || '',
+        region: data.region || '',
+        shadowReleased: isShadowReleased(data.dexNum) || false,
+        shinyReleased: data.shinyReleased || false,
+        speciesId: data.id || '',
+        speciesName: speciesNameEng || '',
+        type1: data.type1 || '',
+        type2: data.type2 || null,
+        ultraBeastCode: data.ultraBeastCode || null,
     };
 }
 
@@ -67,12 +65,6 @@ const unreleasedShadowIds = [
     21, 22, 25, 26, 35, 36, 39, 40, 46, 47, 77, 78, 83, 84, 85, 86, 87, 98, 99,
     108, 113, 115, 118, 119, 128, 132, 133, 134, 135, 136, 140, 141, 151,
 ];
-
-// const unreleasedShadowShinyIds = [
-//     10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 27, 28, 37, 38, 43, 44, 45, 50,
-//     51, 54, 55, 56, 57, 63, 64, 65, 79, 80, 90, 91, 92, 93, 94, 95, 100, 101,
-//     106, 107, 111, 112, 114, 120, 121, 125, 126, 129, 130, 137, 143,
-// ];
 
 const isShadowReleased = (dexNum: number) =>
     !unreleasedShadowIds.includes(dexNum);

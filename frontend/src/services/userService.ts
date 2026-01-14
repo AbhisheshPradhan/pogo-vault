@@ -37,18 +37,14 @@ export const toggleUserCatchStates = async (
     console.log(`Toggle Catch States at: ${route}`);
 
     try {
-        // Axios handles the /api prefix, headers, and stringification
-        // We pass the payload as the second argument
         const response = await api.post(route, {
             pokemonId,
             userId,
             collectionId,
         });
 
-        // Axios automatically checks response.ok (status 2xx)
         return response.data;
     } catch (error: any) {
-        // Extracting specific error message from your Backend's JSON response
         const errorMessage =
             error.response?.data?.message || 'Failed to update catch state';
 
